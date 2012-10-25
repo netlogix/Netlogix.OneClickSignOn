@@ -171,11 +171,11 @@ class OneClickToken implements \TYPO3\FLOW3\Security\Authentication\TokenInterfa
 	 * Updates the username and password credentials from the POST vars, if the POST parameters
 	 * are available. Sets the authentication status to REAUTHENTICATION_NEEDED, if credentials have been sent.
 	 *
-	 * @param \TYPO3\FLOW3\MVC\RequestInterface $request The current request instance
+	 * @param \TYPO3\FLOW3\Mvc\RequestInterface $request The current request instance
 	 * @return void
 	 * @author Andreas Förthner <andreas.foerthner@netlogix.de>
 	 */
-	public function updateCredentials(\TYPO3\FLOW3\MVC\RequestInterface $request) {
+	public function updateCredentials(\TYPO3\FLOW3\Mvc\RequestInterface $request) {
 		$getArguments = $this->environment->getRawGetArguments();
 		$username = \TYPO3\FLOW3\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.FLOW3.Security.Authentication.Token.OneClick.username');
 		$signature = \TYPO3\FLOW3\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.FLOW3.Security.Authentication.Token.OneClick.signature');
