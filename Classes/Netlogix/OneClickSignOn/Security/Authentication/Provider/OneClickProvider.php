@@ -12,24 +12,24 @@ namespace Netlogix\OneClickSignOn\Security\Authentication\Provider;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * An authentication provider that authenticates SSO requests from typo3.org
  *
- * @FLOW3\Scope("prototype")
+ * @Flow\Scope("prototype")
  */
-class OneClickProvider implements \TYPO3\FLOW3\Security\Authentication\AuthenticationProviderInterface {
+class OneClickProvider implements \TYPO3\Flow\Security\Authentication\AuthenticationProviderInterface {
 
 	/**
-	 * @var \TYPO3\FLOW3\Security\AccountRepository
-	 * @FLOW3\Inject
+	 * @var \TYPO3\Flow\Security\AccountRepository
+	 * @Flow\Inject
 	 */
 	protected $accountRepository;
 
 	/**
-	 * @var \TYPO3\FLOW3\Security\Cryptography\HashService
-	 * @FLOW3\Inject
+	 * @var \TYPO3\Flow\Security\Cryptography\HashService
+	 * @Flow\Inject
 	 */
 	protected $hashService;
 
@@ -59,11 +59,11 @@ class OneClickProvider implements \TYPO3\FLOW3\Security\Authentication\Authentic
 	/**
 	 * Returns TRUE if the given token can be authenticated by this provider
 	 *
-	 * @param \TYPO3\FLOW3\Security\Authentication\TokenInterface $authenticationToken The token that should be authenticated
+	 * @param \TYPO3\Flow\Security\Authentication\TokenInterface $authenticationToken The token that should be authenticated
 	 * @return boolean TRUE if the given token class can be authenticated by this provider
 	 * @author Andreas Förthner <andreas.foerthner@netlogix.de>
 	 */
-	public function canAuthenticate(\TYPO3\FLOW3\Security\Authentication\TokenInterface $authenticationToken) {
+	public function canAuthenticate(\TYPO3\Flow\Security\Authentication\TokenInterface $authenticationToken) {
 		if ($authenticationToken->getAuthenticationProviderName() === $this->name) return TRUE;
 		return FALSE;
 	}
@@ -81,13 +81,13 @@ class OneClickProvider implements \TYPO3\FLOW3\Security\Authentication\Authentic
 	/**
 	 * Sets isAuthenticated to TRUE for all tokens.
 	 *
-	 * @param \TYPO3\FLOW3\Security\Authentication\TokenInterface $authenticationToken The token to be authenticated
+	 * @param \TYPO3\Flow\Security\Authentication\TokenInterface $authenticationToken The token to be authenticated
 	 * @return void
 	 * @author Andreas Förthner <andreas.foerthner@netlogix.de>
 	 */
-	public function authenticate(\TYPO3\FLOW3\Security\Authentication\TokenInterface $authenticationToken) {
+	public function authenticate(\TYPO3\Flow\Security\Authentication\TokenInterface $authenticationToken) {
 		if (!($authenticationToken instanceof \Netlogix\OneClickSignOn\Security\Authentication\Token\OneClickToken)) {
-			throw new \TYPO3\FLOW3\Security\Exception\UnsupportedAuthenticationTokenException('This provider cannot authenticate the given token.', 1217339840);
+			throw new \TYPO3\Flow\Security\Exception\UnsupportedAuthenticationTokenException('This provider cannot authenticate the given token.', 1217339840);
 		}
 
 		$account = NULL;
@@ -101,14 +101,14 @@ class OneClickProvider implements \TYPO3\FLOW3\Security\Authentication\Authentic
 
 			if ($this->hashService->validateHmac($credentials['username'].$credentials['expires'], $credentials['signature'])
 				&& $credentials['expires'] > time()) {
-				$authenticationToken->setAuthenticationStatus(\TYPO3\FLOW3\Security\Authentication\TokenInterface::AUTHENTICATION_SUCCESSFUL);
+				$authenticationToken->setAuthenticationStatus(\TYPO3\Flow\Security\Authentication\TokenInterface::AUTHENTICATION_SUCCESSFUL);
 				$authenticationToken->setAccount($account);
 			} else {
-				$authenticationToken->setAuthenticationStatus(\TYPO3\FLOW3\Security\Authentication\TokenInterface::WRONG_CREDENTIALS);
+				$authenticationToken->setAuthenticationStatus(\TYPO3\Flow\Security\Authentication\TokenInterface::WRONG_CREDENTIALS);
 			}
 
-		} elseif ($authenticationToken->getAuthenticationStatus() !== \TYPO3\FLOW3\Security\Authentication\TokenInterface::AUTHENTICATION_SUCCESSFUL) {
-			$authenticationToken->setAuthenticationStatus(\TYPO3\FLOW3\Security\Authentication\TokenInterface::NO_CREDENTIALS_GIVEN);
+		} elseif ($authenticationToken->getAuthenticationStatus() !== \TYPO3\Flow\Security\Authentication\TokenInterface::AUTHENTICATION_SUCCESSFUL) {
+			$authenticationToken->setAuthenticationStatus(\TYPO3\Flow\Security\Authentication\TokenInterface::NO_CREDENTIALS_GIVEN);
 		}
 	}
 }

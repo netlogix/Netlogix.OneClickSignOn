@@ -12,7 +12,7 @@ namespace Netlogix\OneClickSignOn\ViewHelpers\Uri;
  *                                                                        */
 
 use Doctrine\ORM\Mapping as ORM;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * A view helper for creating URIs to actions.
@@ -37,13 +37,13 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  *
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  * @api
- * @FLOW3\Scope("prototype")
+ * @Flow\Scope("prototype")
  */
 class ActionViewHelper extends \TYPO3\Fluid\ViewHelpers\Uri\ActionViewHelper {
 
 	/**
-	 * @var \TYPO3\FLOW3\Security\Cryptography\HashService
-	 * @FLOW3\Inject
+	 * @var \TYPO3\Flow\Security\Cryptography\HashService
+	 * @Flow\Inject
 	 */
 	protected $hashService;
 
