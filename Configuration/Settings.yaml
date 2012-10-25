@@ -1,0 +1,8 @@
+TYPO3:
+  FLOW3:
+    security:
+      authentication:
+        providers:
+          OneClickProvider:
+            options:
+              useProviderName: 'DefaultProvider'
