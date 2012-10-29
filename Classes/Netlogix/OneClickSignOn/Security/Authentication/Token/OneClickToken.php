@@ -168,14 +168,16 @@ class OneClickToken implements \TYPO3\Flow\Security\Authentication\TokenInterfac
 	}
 
 	/**
-	 * Updates the username and password credentials from the POST vars, if the POST parameters
-	 * are available. Sets the authentication status to REAUTHENTICATION_NEEDED, if credentials have been sent.
+	 * Updates the authentication credentials, the authentication manager needs to authenticate this token.
+	 * This could be a username/password from a login controller.
+	 * This method is called while initializing the security context. By returning TRUE you
+	 * make sure that the authentication manager will (re-)authenticate the tokens with the current credentials.
+	 * Note: You should not persist the credentials!
 	 *
-	 * @param \TYPO3\Flow\Mvc\RequestInterface $request The current request instance
-	 * @return void
-	 * @author Andreas Förthner <andreas.foerthner@netlogix.de>
+	 * @param \TYPO3\Flow\Mvc\ActionRequest $actionRequest The current request instance
+	 * @return boolean TRUE if this token needs to be (re-)authenticated
 	 */
-	public function updateCredentials(\TYPO3\Flow\Mvc\RequestInterface $request) {
+	public function updateCredentials(\TYPO3\Flow\Mvc\ActionRequest $actionRequest) {
 		$getArguments = $this->environment->getRawGetArguments();
 		$username = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.username');
 		$signature = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.signature');
@@ -239,7 +241,7 @@ class OneClickToken implements \TYPO3\Flow\Security\Authentication\TokenInterfac
 	 * @param integer $authenticationStatus One of NO_CREDENTIALS_GIVEN, WRONG_CREDENTIALS, AUTHENTICATION_SUCCESSFUL, AUTHENTICATION_NEEDED
 	 * @return void
 	 * @author Andreas Förthner <andreas.foerthner@netlogix.de>
-	 * @throws TYPO3\Flow\Security\Exception\InvalidAuthenticationStatusException
+	 * @throws \TYPO3\Flow\Security\Exception\InvalidAuthenticationStatusException
 	 */
 	public function setAuthenticationStatus($authenticationStatus) {
 		if (!in_array($authenticationStatus, array(self::NO_CREDENTIALS_GIVEN, self::WRONG_CREDENTIALS, self::AUTHENTICATION_SUCCESSFUL, self::AUTHENTICATION_NEEDED))) {
