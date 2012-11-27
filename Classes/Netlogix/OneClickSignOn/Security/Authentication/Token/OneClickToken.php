@@ -22,11 +22,6 @@ use TYPO3\Flow\Annotations as Flow;
 class OneClickToken implements \TYPO3\Flow\Security\Authentication\TokenInterface {
 
 	/**
-	 * @var \TYPO3\Flow\Utility\Environment
-	 */
-	protected $environment;
-
-	/**
 	 * @var string
 	 */
 	protected $authenticationProviderName;
@@ -64,15 +59,6 @@ class OneClickToken implements \TYPO3\Flow\Security\Authentication\TokenInterfac
 	 * @var \TYPO3\Flow\Security\Authentication\EntryPointInterface
 	 */
 	protected $entryPoint = NULL;
-
-	/**
-	 * @param \TYPO3\Flow\Utility\Environment $environment The current environment object
-	 * @return void
-	 * @author Robert Lemke <robert@typo3.org>
-	 */
-	public function injectEnvironment(\TYPO3\Flow\Utility\Environment $environment) {
-		$this->environment = $environment;
-	}
 
 	/**
 	 * @param \TYPO3\Flow\Security\AccountRepository $accountRepository
@@ -178,10 +164,12 @@ class OneClickToken implements \TYPO3\Flow\Security\Authentication\TokenInterfac
 	 * @return boolean TRUE if this token needs to be (re-)authenticated
 	 */
 	public function updateCredentials(\TYPO3\Flow\Mvc\ActionRequest $actionRequest) {
-		$getArguments = $this->environment->getRawGetArguments();
-		$username = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.username');
-		$signature = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.signature');
-		$expires = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($getArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.expires');
+
+		$internalArguments = $actionRequest->getInternalArguments();
+		$username = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($internalArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.username');
+		$signature = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($internalArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.signature');
+		$expires = \TYPO3\Flow\Reflection\ObjectAccess::getPropertyPath($internalArguments, '__authentication.TYPO3.Flow.Security.Authentication.Token.OneClick.expires');
+
 
 		if (!empty($username) && !empty($signature) && !empty($expires)) {
 
