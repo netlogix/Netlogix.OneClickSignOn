@@ -1,8 +1,10 @@
 TYPO3:
-  FLOW3:
+  Flow:
     security:
       authentication:
         providers:
           OneClickProvider:
-            options:
+            provider: 'Netlogix\OneClickSignOn\Security\Authentication\Provider\OneClickProvider'
+            requestPatterns:
+            entryPointOptions:
               useProviderName: 'DefaultProvider'
