@@ -6,5 +6,5 @@ TYPO3:
           OneClickProvider:
             provider: 'Netlogix\OneClickSignOn\Security\Authentication\Provider\OneClickProvider'
             requestPatterns:
-            entryPointOptions:
+            providerOptions:
               useProviderName: 'DefaultProvider'
