@@ -76,7 +76,7 @@ class ActionViewHelper extends \TYPO3\Fluid\ViewHelpers\Uri\ActionViewHelper {
 			$expiresTimeStamp = strtotime($expires);
 			$additionalParams['__authentication'] = array(
 				'TYPO3' => array(
-					'FLOW3' => array (
+					'Flow' => array (
 						'Security' => array(
 							'Authentication' => array(
 								'Token' => array(
